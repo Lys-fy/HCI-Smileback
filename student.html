@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmileBack - Student Interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="student-container">
+        <!-- Anonymität-Indikator -->
+        <div class="anonymity-badge">
+            🔒 Dein Feedback ist anonym
+        </div>
+
+        <!-- Session Info -->
+        <div class="session-info">
+            <h2>Grundlagen der HCI</h2>
+            <p class="session-code">Session: #2025-W07</p>
+        </div>
+
+        <!-- Emoji Feedback -->
+        <div class="feedback-section">
+            <h3>Wie geht es dir gerade?</h3>
+            <div class="emoji-grid">
+                <button class="emoji-btn" data-emoji="😊" onclick="sendFeedback('😊', 'happy')">
+                    <span class="emoji-large">😊</span>
+                    <span class="emoji-label">Super</span>
+                </button>
+                <button class="emoji-btn" data-emoji="🙂" onclick="sendFeedback('🙂', 'good')">
+                    <span class="emoji-large">🙂</span>
+                    <span class="emoji-label">Gut</span>
+                </button>
+                <button class="emoji-btn" data-emoji="😐" onclick="sendFeedback('😐', 'neutral')">
+                    <span class="emoji-large">😐</span>
+                    <span class="emoji-label">Okay</span>
+                </button>
+                <button class="emoji-btn" data-emoji="😕" onclick="sendFeedback('😕', 'confused')">
+                    <span class="emoji-large">😕</span>
+                    <span class="emoji-label">Verwirrt</span>
+                </button>
+                <button class="emoji-btn" data-emoji="😓" onclick="sendFeedback('😓', 'lost')">
+                    <span class="emoji-large">😓</span>
+                    <span class="emoji-label">Verloren</span>
+                </button>
+                <button class="emoji-btn" data-emoji="😴" onclick="sendFeedback('😴', 'bored')">
+                    <span class="emoji-large">😴</span>
+                    <span class="emoji-label">Gelangweilt</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Feedback Bestätigung -->
+        <div id="feedbackConfirm" class="feedback-confirm hidden">
+            ✓ Feedback gesendet!
+        </div>
+
+        <!-- Optional Comment (appears after emoji selection) -->
+        <div id="optionalComment" class="optional-comment hidden">
+            <h4>Möchtest du noch etwas hinzufügen? (optional)</h4>
+            <textarea id="commentBox" placeholder="Deine anonyme Anmerkung..."></textarea>
+            <div class="comment-actions">
+                <button class="submit-comment-btn" onclick="submitComment()">Kommentar senden</button>
+                <button class="skip-comment-btn" onclick="skipComment()">Überspringen</button>
+            </div>
+        </div>
+
+        <!-- Hand heben Feature -->
+        <div class="raise-hand-section">
+            <button id="raiseHandBtn" class="raise-hand-btn" onclick="toggleRaiseHand()">
+                ✋ Hand heben
+            </button>
+            <p class="hand-status" id="handStatus"></p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-footer">
+            <a href="index.html" class="back-link">← Zurück</a>
+        </div>
+    </div>
+
+    <script src="student.js"></script>
+</body>
+</html>

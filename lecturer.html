@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmileBack - Dozenten Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="lecturer-container">
+        <header class="dashboard-header">
+            <h1>SmileBack - Dozenten Dashboard</h1>
+            <div class="header-actions">
+                <button class="btn-secondary" onclick="window.location.href='analytics.html'">📊 Analytics</button>
+                <button class="btn-primary" onclick="toggleSession()">Session starten</button>
+            </div>
+        </header>
+
+        <!-- Session Management -->
+        <div class="session-management">
+            <div class="current-session">
+                <h2>Aktuelle Session</h2>
+                <div class="session-details">
+                    <p><strong>Kurs:</strong> Grundlagen der HCI</p>
+                    <p><strong>Session-Code:</strong> #2025-W07</p>
+                    <p id="sessionStatus" class="session-status inactive">● Inaktiv</p>
+                </div>
+                <div class="qr-code-display">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://www.youtube.com/watch?v=dQw4w9WgXcQ" alt="QR Code" class="qr-image-large">
+                    <p class="qr-info">Studenten scannen diesen Code für Zugang</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Raise Hand Notifications -->
+        <div class="notifications-panel">
+            <h3>Meldungen</h3>
+            <div id="raiseHandCount" class="notification-card">
+                <span class="notification-icon">✋</span>
+                <span id="handCount">0</span> Studierende haben Fragen
+            </div>
+        </div>
+
+        <!-- Live Feedback Dashboard -->
+        <div class="live-feedback">
+            <h2>Live Feedback</h2>
+            <div class="feedback-bars">
+                <div class="feedback-bar">
+                    <div class="bar-header">
+                        <span class="bar-emoji">😊</span>
+                        <span class="bar-label">Super</span>
+                        <span class="bar-percentage" id="happy-percent">0%</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill happy" id="happy-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="feedback-bar">
+                    <div class="bar-header">
+                        <span class="bar-emoji">🙂</span>
+                        <span class="bar-label">Gut</span>
+                        <span class="bar-percentage" id="good-percent">0%</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill good" id="good-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="feedback-bar">
+                    <div class="bar-header">
+                        <span class="bar-emoji">😐</span>
+                        <span class="bar-label">Okay</span>
+                        <span class="bar-percentage" id="neutral-percent">0%</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill neutral" id="neutral-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="feedback-bar">
+                    <div class="bar-header">
+                        <span class="bar-emoji">😕</span>
+                        <span class="bar-label">Verwirrt</span>
+                        <span class="bar-percentage" id="confused-percent">0%</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill confused" id="confused-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="feedback-bar">
+                    <div class="bar-header">
+                        <span class="bar-emoji">😓</span>
+                        <span class="bar-label">Verloren</span>
+                        <span class="bar-percentage" id="lost-percent">0%</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill lost" id="lost-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="feedback-bar">
+                    <div class="bar-header">
+                        <span class="bar-emoji">😴</span>
+                        <span class="bar-label">Gelangweilt</span>
+                        <span class="bar-percentage" id="bored-percent">0%</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill bored" id="bored-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="total-responses">
+                <p>Gesamt Feedbacks: <strong id="totalFeedback">0</strong></p>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <h2>Anonyme Kommentare</h2>
+            <div id="commentsList" class="comments-list">
+                <p class="no-comments">Noch keine Kommentare</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-footer">
+            <a href="index.html" class="back-link">← Zurück zur Startseite</a>
+        </div>
+    </div>
+
+    <script src="lecturer.js"></script>
+</body>
+</html>

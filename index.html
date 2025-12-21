@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmileBack - Course Feedback System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-screen">
+            <h1>😊 SmileBack</h1>
+            <p class="subtitle">Anonymes Emoji-basiertes Live-Feedback für Vorlesungen</p>
+
+            <div class="role-selection">
+                <div class="role-card" onclick="window.location.href='student.html'">
+                    <div class="role-icon">👨‍🎓</div>
+                    <h2>Student</h2>
+                    <p>Feedback geben</p>
+                </div>
+
+                <div class="role-card" onclick="window.location.href='lecturer.html'">
+                    <div class="role-icon">👨‍🏫</div>
+                    <h2>Dozent</h2>
+                    <p>Dashboard verwalten</p>
+                </div>
+            </div>
+
+            <div class="qr-demo">
+                <h3>Session-Zugang via QR-Code</h3>
+                <div class="qr-placeholder">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.youtube.com/watch?v=dQw4w9WgXcQ" alt="QR Code" class="qr-image">
+                    <p>Scanne den QR-Code für schnellen Zugang zur Session</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

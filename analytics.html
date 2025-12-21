@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmileBack - Analytics</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="analytics-container">
+        <header class="analytics-header">
+            <h1>📊 Analytics - Grundlagen der HCI</h1>
+            <a href="lecturer.html" class="btn-secondary">← Zurück zum Dashboard</a>
+        </header>
+
+        <!-- Week Selector -->
+        <div class="week-selector">
+            <h2>Session-Übersicht</h2>
+            <div class="week-tabs">
+                <button class="week-tab active" onclick="showWeek(1)">Woche 1</button>
+                <button class="week-tab" onclick="showWeek(2)">Woche 2</button>
+                <button class="week-tab" onclick="showWeek(3)">Woche 3</button>
+                <button class="week-tab" onclick="showWeek(4)">Woche 4</button>
+                <button class="week-tab" onclick="showWeek(5)">Woche 5</button>
+                <button class="week-tab" onclick="showWeek(6)">Woche 6</button>
+                <button class="week-tab" onclick="showWeek('all')">Alle Wochen</button>
+            </div>
+        </div>
+
+        <!-- Analytics Visualization -->
+        <div id="weekView1" class="week-view active">
+            <h3>Woche 1 - Einführung in HCI</h3>
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h4>Emoji-Verteilung</h4>
+                    <div class="emoji-distribution">
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😊</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill happy" style="width: 45%"></div>
+                            </div>
+                            <span class="stat-value">45%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">🙂</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill good" style="width: 30%"></div>
+                            </div>
+                            <span class="stat-value">30%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😐</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill neutral" style="width: 15%"></div>
+                            </div>
+                            <span class="stat-value">15%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😕</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill confused" style="width: 7%"></div>
+                            </div>
+                            <span class="stat-value">7%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😓</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill lost" style="width: 2%"></div>
+                            </div>
+                            <span class="stat-value">2%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😴</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill bored" style="width: 1%"></div>
+                            </div>
+                            <span class="stat-value">1%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h4>Session-Statistiken</h4>
+                    <div class="session-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Teilnehmer:</span>
+                            <span class="stat-number">87</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Feedbacks gesamt:</span>
+                            <span class="stat-number">156</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Hand gehoben:</span>
+                            <span class="stat-number">12</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Kommentare:</span>
+                            <span class="stat-number">8</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comments-archive">
+                <h4>Kommentare aus dieser Session</h4>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-emoji">😕</span>
+                        <span class="comment-time">45 min ago</span>
+                    </div>
+                    <p>"Könnten Sie das nochmal langsamer erklären?"</p>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-emoji">😊</span>
+                        <span class="comment-time">1 hour ago</span>
+                    </div>
+                    <p>"Sehr interessantes Thema! Gibt es dazu weiterführende Literatur?"</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="weekView2" class="week-view">
+            <h3>Woche 2 - User Research Methods</h3>
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h4>Emoji-Verteilung</h4>
+                    <div class="emoji-distribution">
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😊</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill happy" style="width: 40%"></div>
+                            </div>
+                            <span class="stat-value">40%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">🙂</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill good" style="width: 35%"></div>
+                            </div>
+                            <span class="stat-value">35%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😐</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill neutral" style="width: 12%"></div>
+                            </div>
+                            <span class="stat-value">12%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😕</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill confused" style="width: 10%"></div>
+                            </div>
+                            <span class="stat-value">10%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😓</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill lost" style="width: 2%"></div>
+                            </div>
+                            <span class="stat-value">2%</span>
+                        </div>
+                        <div class="emoji-stat">
+                            <span class="emoji-big">😴</span>
+                            <div class="stat-bar">
+                                <div class="stat-fill bored" style="width: 1%"></div>
+                            </div>
+                            <span class="stat-value">1%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h4>Session-Statistiken</h4>
+                    <div class="session-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Teilnehmer:</span>
+                            <span class="stat-number">92</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Feedbacks gesamt:</span>
+                            <span class="stat-number">178</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Hand gehoben:</span>
+                            <span class="stat-number">15</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Kommentare:</span>
+                            <span class="stat-number">11</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Week-to-Week Comparison View -->
+        <div id="weekViewAll" class="week-view">
+            <h3>Week-to-Week Vergleich</h3>
+            <div class="comparison-chart">
+                <h4>Positive Feedback Trend (😊 + 🙂)</h4>
+                <div class="trend-graph">
+                    <div class="trend-bar">
+                        <span class="week-label">W1</span>
+                        <div class="trend-fill" style="width: 75%">75%</div>
+                    </div>
+                    <div class="trend-bar">
+                        <span class="week-label">W2</span>
+                        <div class="trend-fill" style="width: 75%">75%</div>
+                    </div>
+                    <div class="trend-bar">
+                        <span class="week-label">W3</span>
+                        <div class="trend-fill" style="width: 68%">68%</div>
+                    </div>
+                    <div class="trend-bar">
+                        <span class="week-label">W4</span>
+                        <div class="trend-fill" style="width: 82%">82%</div>
+                    </div>
+                    <div class="trend-bar">
+                        <span class="week-label">W5</span>
+                        <div class="trend-fill" style="width: 79%">79%</div>
+                    </div>
+                    <div class="trend-bar">
+                        <span class="week-label">W6</span>
+                        <div class="trend-fill" style="width: 85%">85%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insights">
+                <h4>Erkenntnisse</h4>
+                <ul>
+                    <li>Generell positive Tendenz über das Semester</li>
+                    <li>Woche 3 zeigt erhöhte Verwirrung - möglicherweise komplexes Thema</li>
+                    <li>Deutliche Verbesserung ab Woche 4 nach Anpassung der Lehrmethoden</li>
+                    <li>Durchschnittlich 12-15 "Hand heben" pro Session</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Placeholder views for other weeks -->
+        <div id="weekView3" class="week-view"><h3>Woche 3</h3><p>Daten werden geladen...</p></div>
+        <div id="weekView4" class="week-view"><h3>Woche 4</h3><p>Daten werden geladen...</p></div>
+        <div id="weekView5" class="week-view"><h3>Woche 5</h3><p>Daten werden geladen...</p></div>
+        <div id="weekView6" class="week-view"><h3>Woche 6</h3><p>Daten werden geladen...</p></div>
+    </div>
+
+    <script src="analytics.js"></script>
+</body>
+</html>
