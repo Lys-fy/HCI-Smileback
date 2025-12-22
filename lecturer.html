@@ -9,10 +9,12 @@
 <body>
     <div class="lecturer-container">
         <header class="dashboard-header">
+            <div class="header-left">
+                <a href="index.html" class="btn-secondary">← Zurück</a>
+            </div>
             <h1>SmileBack - Dozenten Dashboard</h1>
             <div class="header-actions">
                 <button class="btn-secondary" onclick="window.location.href='analytics.html'">📊 Analytics</button>
-                <button class="btn-primary" onclick="toggleSession()">Session starten</button>
             </div>
         </header>
 
@@ -24,8 +26,9 @@
                     <p><strong>Kurs:</strong> Grundlagen der HCI</p>
                     <p><strong>Session-Code:</strong> #2025-W07</p>
                     <p id="sessionStatus" class="session-status inactive">● Inaktiv</p>
+                    <button class="btn-primary" onclick="toggleSession()">Session starten</button>
                 </div>
-                <div class="qr-code-display">
+                <div id="qrCodeDisplay" class="qr-code-display" style="display: none;">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://www.youtube.com/watch?v=dQw4w9WgXcQ" alt="QR Code" class="qr-image-large">
                     <p class="qr-info">Studenten scannen diesen Code für Zugang</p>
                 </div>
@@ -125,10 +128,6 @@
             </div>
         </div>
 
-        <!-- Navigation -->
-        <div class="nav-footer">
-            <a href="index.html" class="back-link">← Zurück zur Startseite</a>
-        </div>
     </div>
 
     <script src="lecturer.js"></script>

@@ -113,9 +113,26 @@ body {
 }
 
 .student-container {
-    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
+}
+
+.student-header {
+    background: white;
+    padding: 30px 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    min-height: 80px;
+}
+
+.student-header .header-left {
+    grid-column: 1;
+    justify-self: start;
 }
 
 .anonymity-badge {
@@ -130,9 +147,43 @@ body {
     font-size: 0.95rem;
 }
 
+.anonymity-badge-inline {
+    color: #27ae60;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    grid-column: 2;
+    white-space: nowrap;
+}
+
+.session-info-wrapper {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    align-items: stretch;
+}
+
+.nav-back-wrapper {
+    margin-bottom: 30px;
+}
+
+.nav-back-box {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: fit-content;
+}
+
 .session-info {
     background: white;
     padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     border-radius: 15px;
     margin-bottom: 30px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -141,11 +192,15 @@ body {
 .session-info h2 {
     color: #3498db;
     margin-bottom: 5px;
+    padding: 10px;
 }
 
 .session-code {
     color: #666;
+    flex-basis: 100%;
+    margin: 0;
     font-size: 0.9rem;
+    text-align: center;
 }
 
 .feedback-section {
@@ -234,8 +289,13 @@ body {
 .optional-comment {
     background: white;
     padding: 25px;
+    padding-top: 90px;
+    padding-bottom: 90px;
     border-radius: 15px;
+    margin-top: -380px;
     margin-bottom: 25px;
+    z-index: 1;
+    position: relative;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     animation: slideIn 0.3s;
 }
@@ -374,23 +434,39 @@ body {
 
 .dashboard-header {
     background: white;
-    padding: 25px;
+    padding: 30px 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    flex-wrap: wrap;
     gap: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    min-height: 80px;
 }
 
 .dashboard-header h1 {
     color: #3498db;
     font-size: 1.8rem;
+    margin: 0;
+    text-align: center;
+    grid-column: 2;
+    white-space: nowrap;
+}
+
+.dashboard-header .header-left {
+    grid-column: 1;
+    justify-self: start;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
 }
 
 .header-actions {
+    grid-column: 3;
+    justify-self: end;
     display: flex;
     gap: 15px;
 }
@@ -401,9 +477,12 @@ body {
     border-radius: 25px;
     cursor: pointer;
     font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
     transition: all 0.3s;
     font-family: inherit;
     font-size: 1rem;
+    white-space: nowrap;
 }
 
 .btn-primary {
@@ -446,6 +525,12 @@ body {
 .session-details p {
     margin-bottom: 8px;
     color: #666;
+}
+
+.session-details .btn-primary {
+    margin-top: 20px;
+    width: auto;
+    display: inline-block;
 }
 
 .session-status {
@@ -684,19 +769,29 @@ body {
 
 .analytics-header {
     background: white;
-    padding: 25px;
+    padding: 30px 25px;
     border-radius: 15px;
     margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    flex-wrap: wrap;
     gap: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    min-height: 80px;
 }
 
 .analytics-header h1 {
     color: #3498db;
+    font-size: 1.8rem;
+    margin: 0;
+    text-align: center;
+    grid-column: 2;
+    white-space: nowrap;
+}
+
+.analytics-header .header-left {
+    grid-column: 1;
+    justify-self: start;
 }
 
 .week-selector {
@@ -954,27 +1049,42 @@ body {
     color: #3498db;
     text-decoration: none;
     font-weight: 600;
-    padding: 12px 30px;
-    background: white;
-    border-radius: 25px;
-    display: inline-block;
     transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .back-link:hover {
-    background: #f8f9fa;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: #2980b9;
+    transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
-    .dashboard-header {
-        flex-direction: column;
-        align-items: stretch;
+    .dashboard-header,
+    .analytics-header,
+    .student-header {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 15px;
+    }
+
+    .dashboard-header .header-left,
+    .analytics-header .header-left,
+    .student-header .header-left {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
+    }
+
+    .dashboard-header h1,
+    .analytics-header h1,
+    .anonymity-badge-inline {
+        grid-column: 1;
+        grid-row: 2;
     }
 
     .header-actions {
+        grid-column: 1;
+        grid-row: 3;
+        justify-self: stretch;
         flex-direction: column;
     }
 

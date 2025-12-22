@@ -15,6 +15,7 @@ function toggleSession() {
         localStorage.removeItem('feedbackData');
         localStorage.removeItem('raiseHandCount');
         localStorage.removeItem('comments');
+        localStorage.setItem('sessionStartTime', Date.now());
 
         btn.textContent = 'Session beenden';
         btn.classList.add('active');
@@ -22,9 +23,10 @@ function toggleSession() {
         status.classList.remove('inactive');
         status.classList.add('active');
 
+        document.getElementById('qrCodeDisplay').style.display = 'block';
+
         updateDashboard();
         updateInterval = setInterval(updateDashboard, 3000);
-        alert('Session gestartet! Studenten können jetzt Feedback geben.');
     } else {
         btn.textContent = 'Session starten';
         btn.classList.remove('active');
@@ -32,12 +34,14 @@ function toggleSession() {
         status.classList.remove('active');
         status.classList.add('inactive');
 
+        document.getElementById('qrCodeDisplay').style.display = 'none';
+
         if (updateInterval) {
             clearInterval(updateInterval);
             updateInterval = null;
         }
 
-        alert('Session beendet. Feedback wurde gespeichert.');
+        localStorage.removeItem('sessionStartTime');
     }
 
     localStorage.setItem('sessionActive', sessionActive);
@@ -45,9 +49,23 @@ function toggleSession() {
 
 function loadSessionState() {
     const saved = localStorage.getItem('sessionActive');
+    const btn = document.querySelector('.btn-primary');
+    const status = document.getElementById('sessionStatus');
+
     if (saved === 'true') {
+        sessionActive = true;
+        btn.textContent = 'Session beenden';
+        btn.classList.add('active');
+        status.textContent = '● Aktiv';
+        status.classList.remove('inactive');
+        status.classList.add('active');
+        document.getElementById('qrCodeDisplay').style.display = 'block';
+
+        updateDashboard();
+        updateInterval = setInterval(updateDashboard, 3000);
+    } else {
         sessionActive = false;
-        toggleSession();
+        document.getElementById('qrCodeDisplay').style.display = 'none';
     }
 }
 

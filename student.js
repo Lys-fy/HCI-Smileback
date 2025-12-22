@@ -1,9 +1,12 @@
 let handRaised = false;
 let selectedEmoji = null;
+let timerInterval = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     loadHandRaisedState();
     updateHandStatus();
+    startTimer();
+    startClock();
 });
 
 function sendFeedback(emoji, type) {
@@ -133,4 +136,43 @@ function clearSession() {
         localStorage.removeItem('comments');
         location.reload();
     }
+}
+
+function startTimer() {
+    function updateTimer() {
+        const sessionStartTime = localStorage.getItem('sessionStartTime');
+        const timerElement = document.getElementById('sessionTimer');
+
+        if (!sessionStartTime) {
+            timerElement.textContent = '00:00';
+            return;
+        }
+
+        const startTime = parseInt(sessionStartTime);
+        const now = Date.now();
+        const elapsed = Math.floor((now - startTime) / 1000);
+
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+
+        timerElement.textContent =
+            String(minutes).padStart(2, '0') + ':' +
+            String(seconds).padStart(2, '0');
+    }
+
+    updateTimer();
+    timerInterval = setInterval(updateTimer, 1000);
+}
+
+function startClock() {
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        document.getElementById('currentTime').textContent = hours + ':' + minutes;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
 }
