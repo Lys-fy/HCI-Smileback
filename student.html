@@ -14,47 +14,68 @@
                 <a href="index.html" class="btn-secondary">← Zurück</a>
             </div>
             <div class="anonymity-badge-inline">
-                🔒 Dein Feedback ist anonym
+                <span class="badge-icon">🔒</span>
+                <div class="badge-content">
+                    <div class="badge-title">Dein Feedback ist anonym</div>
+                    <div class="badge-detail">Keine Identifikation • Keine Nachverfolgung</div>
+                </div>
             </div>
         </header>
 
-        <!-- Session Info -->
+        <!-- NEW: Session Status Banner -->
+        <div class="session-status-banner" id="sessionStatusBanner">
+            <span class="status-indicator" id="statusIndicator">●</span>
+            <span id="statusText">Session-Status wird geladen...</span>
+        </div>
+
+        <!-- Session Info (Decluttered) -->
         <div class="session-info">
-            <h2 id="sessionTimer">00:00</h2>
-            <h2>Grundlagen der HCI</h2>
-            <h2 id="currentTime">--:--</h2>
-            <p class="session-code">Session: #2025-W07</p>
+            <div class="session-header-compact">
+                <h2>Grundlagen der HCI</h2>
+                <button class="info-toggle" onclick="toggleSessionDetails()" aria-label="Session-Details anzeigen">
+                    ℹ️
+                </button>
+            </div>
+            <div class="session-details-expanded hidden" id="sessionDetails">
+                <p class="session-detail"><strong>Session-Code:</strong> #2025-W07</p>
+                <p class="session-detail"><strong>Session-Zeit:</strong> <span id="sessionTimer">00:00</span></p>
+                <p class="session-detail"><strong>Uhrzeit:</strong> <span id="currentTime">--:--</span></p>
+            </div>
         </div>
 
         <!-- Emoji Feedback -->
         <div class="feedback-section">
             <h3>Wie geht es dir gerade?</h3>
             <div class="emoji-grid">
-                <button class="emoji-btn" data-emoji="😊" onclick="sendFeedback('😊', 'happy')">
+                <button class="emoji-btn" data-emoji="😊" onclick="selectEmoji('😊', 'happy')">
                     <span class="emoji-large">😊</span>
-                    <span class="emoji-label">Super</span>
+                    <span class="emoji-label">Super <span class="shortcut-hint">1</span></span>
                 </button>
-                <button class="emoji-btn" data-emoji="🙂" onclick="sendFeedback('🙂', 'good')">
+                <button class="emoji-btn" data-emoji="🙂" onclick="selectEmoji('🙂', 'good')">
                     <span class="emoji-large">🙂</span>
-                    <span class="emoji-label">Gut</span>
+                    <span class="emoji-label">Gut <span class="shortcut-hint">2</span></span>
                 </button>
-                <button class="emoji-btn" data-emoji="😐" onclick="sendFeedback('😐', 'neutral')">
+                <button class="emoji-btn" data-emoji="😐" onclick="selectEmoji('😐', 'neutral')">
                     <span class="emoji-large">😐</span>
-                    <span class="emoji-label">Okay</span>
+                    <span class="emoji-label">Okay <span class="shortcut-hint">3</span></span>
                 </button>
-                <button class="emoji-btn" data-emoji="😕" onclick="sendFeedback('😕', 'confused')">
+                <button class="emoji-btn" data-emoji="😕" onclick="selectEmoji('😕', 'confused')">
                     <span class="emoji-large">😕</span>
-                    <span class="emoji-label">Verwirrt</span>
+                    <span class="emoji-label">Verwirrt <span class="shortcut-hint">4</span></span>
                 </button>
-                <button class="emoji-btn" data-emoji="😓" onclick="sendFeedback('😓', 'lost')">
+                <button class="emoji-btn" data-emoji="😓" onclick="selectEmoji('😓', 'lost')">
                     <span class="emoji-large">😓</span>
-                    <span class="emoji-label">Verloren</span>
+                    <span class="emoji-label">Verloren <span class="shortcut-hint">5</span></span>
                 </button>
-                <button class="emoji-btn" data-emoji="😴" onclick="sendFeedback('😴', 'bored')">
+                <button class="emoji-btn" data-emoji="😴" onclick="selectEmoji('😴', 'bored')">
                     <span class="emoji-large">😴</span>
-                    <span class="emoji-label">Gelangweilt</span>
+                    <span class="emoji-label">Gelangweilt <span class="shortcut-hint">6</span></span>
                 </button>
             </div>
+            <!-- NEW: Confirm button (hidden by default) -->
+            <button id="confirmFeedbackBtn" class="confirm-feedback-btn hidden" onclick="confirmFeedback()">
+                Feedback senden
+            </button>
         </div>
 
         <!-- Optional Comment (appears after emoji selection) -->
@@ -80,7 +101,29 @@
             <p class="hand-status" id="handStatus"></p>
         </div>
 
-    
+        <!-- Keyboard Shortcuts Legend -->
+        <div class="keyboard-shortcuts">
+            <h4>⌨️ Tastaturkürzel</h4>
+            <div class="shortcuts-grid">
+                <div class="shortcut-item">
+                    <kbd>1</kbd>-<kbd>6</kbd>
+                    <span>Emoji auswählen</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Enter</kbd>
+                    <span>Feedback bestätigen</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Esc</kbd>
+                    <span>Abbrechen</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>H</kbd>
+                    <span>Hand heben/senken</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="student.js"></script>

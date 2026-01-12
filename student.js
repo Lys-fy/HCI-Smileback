@@ -1,5 +1,6 @@
 let handRaised = false;
 let selectedEmoji = null;
+let pendingFeedback = null;  // NEW: Stores selected but not confirmed emoji
 let timerInterval = null;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -7,26 +8,70 @@ document.addEventListener('DOMContentLoaded', function() {
     updateHandStatus();
     startTimer();
     startClock();
+    checkSessionStatus();  // Check session status on load
+    setInterval(checkSessionStatus, 5000);  // Check every 5 seconds
+    setupKeyboardShortcuts();  // Setup keyboard shortcuts
 });
 
-function sendFeedback(emoji, type) {
-    selectedEmoji = { type: type, emoji: emoji };
+// Renamed: now only SELECTS emoji, doesn't send yet
+function selectEmoji(emoji, type) {
+    pendingFeedback = { emoji, type };
 
+    // Visual feedback - highlight selected emoji
     document.querySelectorAll('.emoji-btn').forEach(btn => {
         btn.classList.remove('selected');
     });
     event.target.closest('.emoji-btn').classList.add('selected');
 
+    // Show confirm button
+    const confirmBtn = document.getElementById('confirmFeedbackBtn');
+    confirmBtn.classList.remove('hidden');
+    confirmBtn.textContent = `${emoji} senden?`;
+
+    console.log(`Emoji selected: ${emoji} (${type})`);
+}
+
+// NEW: Actually sends the feedback after confirmation
+function confirmFeedback() {
+    if (!pendingFeedback) return;
+
+    const { emoji, type } = pendingFeedback;
+    selectedEmoji = { type, emoji };  // Store for optional comment later
+
+    // Store feedback in localStorage
     storeFeedback(type);
 
+    // Show confirmation
     const confirm = document.getElementById('feedbackConfirm');
+    confirm.textContent = `✓ ${emoji} Feedback gesendet!`;
     confirm.classList.remove('hidden');
     setTimeout(() => {
         confirm.classList.add('hidden');
+        // Show optional comment section
         document.getElementById('optionalComment').classList.remove('hidden');
-    }, 1500);
+    }, 2000);
 
-    console.log(`Feedback sent: ${emoji} (${type})`);
+    // Hide confirm button
+    document.getElementById('confirmFeedbackBtn').classList.add('hidden');
+
+    // Clear selection after 2s
+    setTimeout(() => {
+        document.querySelectorAll('.emoji-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        pendingFeedback = null;
+    }, 2000);
+
+    console.log(`Feedback confirmed: ${emoji} (${type})`);
+}
+
+// NEW: Cancel emoji selection
+function cancelFeedback() {
+    document.querySelectorAll('.emoji-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+    document.getElementById('confirmFeedbackBtn').classList.add('hidden');
+    pendingFeedback = null;
 }
 
 function storeFeedback(type) {
@@ -52,7 +97,7 @@ function toggleRaiseHand() {
 
     if (handRaised) {
         btn.classList.add('active');
-        btn.textContent = '✓ Hand gehoben';
+        btn.innerHTML = '✓ Hand gehoben<span class="button-hint">Nochmal klicken zum Zurücknehmen</span>';
 
         let handCount = parseInt(localStorage.getItem('raiseHandCount')) || 0;
         handCount++;
@@ -90,12 +135,53 @@ function loadHandRaisedState() {
     }
 }
 
+// NEW: Check if session is active and update status banner
+function checkSessionStatus() {
+    const sessionActive = localStorage.getItem('sessionActive') === 'true';
+    const banner = document.getElementById('sessionStatusBanner');
+    const indicator = document.getElementById('statusIndicator');
+    const text = document.getElementById('statusText');
+
+    if (sessionActive) {
+        banner.classList.add('active');
+        banner.classList.remove('inactive');
+        text.textContent = 'Session aktiv - Feedback wird erfasst';
+    } else {
+        banner.classList.add('inactive');
+        banner.classList.remove('active');
+        text.textContent = 'Session beendet - Feedback wird nicht erfasst';
+    }
+}
+
+// NEW: Toggle session details visibility
+function toggleSessionDetails() {
+    const details = document.getElementById('sessionDetails');
+    const toggle = document.querySelector('.info-toggle');
+
+    if (details.classList.contains('hidden')) {
+        details.classList.remove('hidden');
+        toggle.textContent = '✕';
+        toggle.setAttribute('aria-label', 'Session-Details ausblenden');
+    } else {
+        details.classList.add('hidden');
+        toggle.textContent = 'ℹ️';
+        toggle.setAttribute('aria-label', 'Session-Details anzeigen');
+    }
+}
+
 function submitComment() {
     const commentBox = document.getElementById('commentBox');
     const comment = commentBox.value.trim();
 
-    if (comment === '') {
-        skipComment();
+    // Clear any existing feedback messages
+    const existingFeedback = document.getElementById('commentFeedback');
+    if (existingFeedback) {
+        existingFeedback.remove();
+    }
+
+    // Validate minimum length (3 characters)
+    if (comment.length < 3) {
+        showCommentError('Bitte mindestens 3 Zeichen eingeben');
         return;
     }
 
@@ -121,6 +207,15 @@ function submitComment() {
     }, 2000);
 
     console.log('Comment submitted:', comment);
+}
+
+function showCommentError(message) {
+    const commentBox = document.getElementById('commentBox');
+    const feedback = document.createElement('div');
+    feedback.id = 'commentFeedback';
+    feedback.className = 'comment-feedback error';
+    feedback.textContent = message;
+    commentBox.parentNode.insertBefore(feedback, commentBox.nextSibling);
 }
 
 function skipComment() {
@@ -175,4 +270,46 @@ function startClock() {
 
     updateClock();
     setInterval(updateClock, 1000);
+}
+
+// P12: Keyboard shortcuts for accessibility
+function setupKeyboardShortcuts() {
+    const emojiMap = {
+        '1': { emoji: '😊', type: 'happy' },
+        '2': { emoji: '🙂', type: 'good' },
+        '3': { emoji: '😐', type: 'neutral' },
+        '4': { emoji: '😕', type: 'confused' },
+        '5': { emoji: '😓', type: 'lost' },
+        '6': { emoji: '😴', type: 'bored' }
+    };
+
+    document.addEventListener('keydown', function(e) {
+        // Ignore if user is typing in textarea
+        if (e.target.tagName === 'TEXTAREA') return;
+
+        // Number keys 1-6: Select emoji
+        if (emojiMap[e.key]) {
+            const { emoji, type } = emojiMap[e.key];
+            selectEmoji(emoji, type);
+            e.preventDefault();
+        }
+
+        // Enter: Confirm feedback
+        if (e.key === 'Enter' && pendingFeedback) {
+            confirmFeedback();
+            e.preventDefault();
+        }
+
+        // Escape: Cancel selection
+        if (e.key === 'Escape') {
+            cancelFeedback();
+            e.preventDefault();
+        }
+
+        // H key: Toggle hand raise
+        if (e.key === 'h' || e.key === 'H') {
+            toggleRaiseHand();
+            e.preventDefault();
+        }
+    });
 }

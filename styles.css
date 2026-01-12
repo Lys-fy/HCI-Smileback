@@ -148,12 +148,67 @@ body {
 }
 
 .anonymity-badge-inline {
-    color: #27ae60;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     grid-column: 2;
-    white-space: nowrap;
+    background: #e8f5e9;
+    padding: 10px 20px;
+    border-radius: 10px;
+    justify-content: center;
+}
+
+.badge-icon {
+    font-size: 1.5rem;
+}
+
+.badge-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.badge-title {
+    color: #27ae60;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.badge-detail {
+    color: #5a8c65;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* NEW: Session Status Banner */
+.session-status-banner {
+    background: rgba(255,255,255,0.95);
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.session-status-banner.active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.session-status-banner.inactive {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-indicator {
+    font-size: 1.2rem;
 }
 
 .session-info-wrapper {
@@ -180,15 +235,77 @@ body {
 
 .session-info {
     background: white;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    padding: 15px 20px;  /* Reduced padding for compact view */
     border-radius: 15px;
     margin-bottom: 30px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
+/* NEW: Compact header with toggle button */
+.session-header-compact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.session-header-compact h2 {
+    color: #667eea;
+    margin-bottom: 0;
+    font-size: 1.3rem;
+}
+
+.info-toggle {
+    background: #f8f9fa;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.info-toggle:hover {
+    background: #e9ecef;
+    transform: scale(1.1);
+}
+
+.session-details-expanded {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f8f9fa;
+    animation: slideDown 0.3s;
+}
+
+.session-details-expanded.hidden {
+    display: none;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.session-detail {
+    color: #666;
+    font-size: 0.85rem;
+    margin: 8px 0;
+}
+
+.session-detail strong {
+    color: #333;
+}
+
+/* Legacy styles (kept for backwards compatibility) */
 .session-info h2 {
     color: #3498db;
     margin-bottom: 5px;
@@ -274,15 +391,44 @@ body {
 .feedback-confirm {
     background: #27ae60;
     color: white;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 25px 30px;
+    border-radius: 15px;
     text-align: center;
     margin-bottom: 20px;
-    font-weight: 600;
-    animation: slideIn 0.3s;
+    font-weight: 700;
+    font-size: 1.3rem;
+    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+    animation: slideInBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .feedback-confirm.hidden {
+    display: none;
+}
+
+/* NEW: Confirm button for 2-step emoji selection */
+.confirm-feedback-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    font-family: inherit;
+    width: 100%;
+    margin-top: 15px;
+    min-height: 60px;
+}
+
+.confirm-feedback-btn:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.confirm-feedback-btn.hidden {
     display: none;
 }
 
@@ -357,6 +503,21 @@ body {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes slideInBounce {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(5px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 
@@ -1091,4 +1252,143 @@ body {
     .analytics-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* NEW: Notification Toast for Success/Error Messages */
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-weight: 600;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s;
+    max-width: 400px;
+}
+
+.notification-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification-toast.success {
+    border-left: 4px solid #27ae60;
+    color: #155724;
+}
+
+.notification-toast.error {
+    border-left: 4px solid #e74c3c;
+    color: #721c24;
+}
+
+.notification-toast.info {
+    border-left: 4px solid #667eea;
+    color: #333;
+}
+
+/* PHASE 4: UI Consistency Fixes */
+
+/* P12: Keyboard Shortcuts */
+.shortcut-hint {
+    display: inline-block;
+    font-size: 0.7rem;
+    background: rgba(102, 126, 234, 0.2);
+    color: #667eea;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 5px;
+    font-weight: 600;
+}
+
+.keyboard-shortcuts {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.keyboard-shortcuts h4 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #5a6c7d;
+}
+
+kbd {
+    background: #f5f7fa;
+    border: 1px solid #d1d9e0;
+    border-radius: 5px;
+    padding: 3px 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2c3e50;
+    box-shadow: 0 2px 0 #d1d9e0;
+}
+
+/* P11: Last Updated Timestamp */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin: 0;
+}
+
+.last-updated {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    font-weight: normal;
+}
+
+/* P9: Hand-Raise Undo Hint */
+.button-hint {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+}
+
+/* P13: Comment Validation Feedback */
+.comment-feedback {
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.comment-feedback.error {
+    background: #fee;
+    color: #c33;
+    border-left: 3px solid #e74c3c;
+}
+
+.comment-feedback.success {
+    background: #efe;
+    color: #3c3;
+    border-left: 3px solid #27ae60;
 }

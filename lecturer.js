@@ -7,6 +7,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function toggleSession() {
+    // NEW: Add confirmation dialogs for critical actions
+    if (sessionActive) {
+        // Stopping session - need confirmation
+        if (!confirm('⚠️ Session beenden?\n\nAlle aktuellen Live-Daten werden archiviert und die Session wird für Studenten deaktiviert.')) {
+            return;  // User cancelled
+        }
+    } else {
+        // Starting session - need confirmation
+        if (!confirm('🚀 Session starten?\n\nStudenten können ab sofort Feedback geben. Die vorherigen Session-Daten bleiben in den Analytics erhalten.')) {
+            return;  // User cancelled
+        }
+    }
+
     sessionActive = !sessionActive;
     const btn = document.querySelector('.btn-primary');
     const status = document.getElementById('sessionStatus');
@@ -27,6 +40,9 @@ function toggleSession() {
 
         updateDashboard();
         updateInterval = setInterval(updateDashboard, 3000);
+
+        // NEW: Show success notification
+        showNotification('✓ Session gestartet! Studenten können jetzt Feedback geben.', 'success');
     } else {
         btn.textContent = 'Session starten';
         btn.classList.remove('active');
@@ -42,6 +58,9 @@ function toggleSession() {
         }
 
         localStorage.removeItem('sessionStartTime');
+
+        // NEW: Show success notification
+        showNotification('✓ Session beendet. Feedback wurde gespeichert.', 'success');
     }
 
     localStorage.setItem('sessionActive', sessionActive);
@@ -70,6 +89,16 @@ function loadSessionState() {
 }
 
 function updateDashboard() {
+    // Update "last updated" timestamp
+    const now = new Date();
+    const timeString = String(now.getHours()).padStart(2, '0') + ':' +
+                      String(now.getMinutes()).padStart(2, '0') + ':' +
+                      String(now.getSeconds()).padStart(2, '0');
+    const lastUpdatedElement = document.getElementById('lastUpdated');
+    if (lastUpdatedElement) {
+        lastUpdatedElement.textContent = `Zuletzt aktualisiert: ${timeString}`;
+    }
+
     let feedbackData = JSON.parse(localStorage.getItem('feedbackData')) || {
         happy: 0,
         good: 0,
@@ -141,21 +170,25 @@ function updateComments() {
     }).join('');
 }
 
+// UPDATED: Use time RANGES for anonymization (prevents de-anonymization in small sessions)
 function calculateTimeAgo(timestamp) {
     const now = new Date();
     const past = new Date(timestamp);
     const diffMs = now - past;
     const diffMins = Math.floor(diffMs / 60000);
 
-    if (diffMins < 1) return 'Gerade eben';
-    if (diffMins === 1) return '1 Minute ago';
-    if (diffMins < 60) return `${diffMins} Minuten ago`;
+    // Use time ranges instead of precise times
+    if (diffMins < 5) return 'Vor 0-5 Minuten';
+    if (diffMins < 15) return 'Vor 5-15 Minuten';
+    if (diffMins < 30) return 'Vor 15-30 Minuten';
+    if (diffMins < 60) return 'Vor 30-60 Minuten';
 
     const diffHours = Math.floor(diffMins / 60);
-    if (diffHours === 1) return '1 Stunde ago';
-    if (diffHours < 24) return `${diffHours} Stunden ago`;
+    if (diffHours < 2) return 'Vor 1-2 Stunden';
+    if (diffHours < 4) return 'Vor 2-4 Stunden';
+    if (diffHours < 8) return 'Vor 4-8 Stunden';
 
-    return 'Vor mehr als einem Tag';
+    return 'Vor mehr als 8 Stunden';
 }
 
 function resetData() {
@@ -164,8 +197,30 @@ function resetData() {
         localStorage.removeItem('raiseHandCount');
         localStorage.removeItem('comments');
         updateDashboard();
-        alert('Daten wurden zurückgesetzt.');
+        showNotification('Daten wurden zurückgesetzt.', 'success');
     }
+}
+
+// NEW: Show notification toast (replaces alert())
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existing = document.querySelector('.notification-toast');
+    if (existing) existing.remove();
+
+    // Create notification
+    const notification = document.createElement('div');
+    notification.className = `notification-toast ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    // Animate in
+    setTimeout(() => notification.classList.add('show'), 100);
+
+    // Remove after 4 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 4000);
 }
 
 function addDemoData() {
