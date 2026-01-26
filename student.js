@@ -20,15 +20,29 @@ function selectEmoji(emoji, type) {
     // Visual feedback - highlight selected emoji
     document.querySelectorAll('.emoji-btn').forEach(btn => {
         btn.classList.remove('selected');
+        // If we know the emoji, we can find the button even without a click event
+        if (btn.getAttribute('data-emoji') === emoji) {
+            btn.classList.add('selected');
+        }
     });
-    event.target.closest('.emoji-btn').classList.add('selected');
 
     // Show confirm button
     const confirmBtn = document.getElementById('confirmFeedbackBtn');
     confirmBtn.classList.remove('hidden');
     confirmBtn.textContent = `${emoji} senden?`;
 
+    // Scroll into view if on mobile to ensure it's seen
+    confirmBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
     console.log(`Emoji selected: ${emoji} (${type})`);
+}
+
+// NEW: Opens comment box without requiring emoji selection
+function openCommentOnly() {
+    selectedEmoji = null; // Clear previous selection
+    document.getElementById('optionalComment').classList.remove('hidden');
+    document.getElementById('commentBox').focus();
+    document.getElementById('optionalComment').scrollIntoView({ behavior: 'smooth' });
 }
 
 // NEW: Actually sends the feedback after confirmation
@@ -199,7 +213,7 @@ function submitComment() {
     document.getElementById('optionalComment').classList.add('hidden');
 
     const confirm = document.getElementById('feedbackConfirm');
-    confirm.textContent = '✓ Feedback und Kommentar gesendet!';
+    confirm.textContent = selectedEmoji ? '✓ Feedback und Kommentar gesendet!' : '✓ Kommentar gesendet!';
     confirm.classList.remove('hidden');
     setTimeout(() => {
         confirm.classList.add('hidden');

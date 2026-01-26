@@ -184,17 +184,20 @@ body {
 /* NEW: Session Status Banner */
 .session-status-banner {
     background: rgba(255,255,255,0.95);
-    padding: 12px 20px;
-    border-radius: 25px;
+    padding: 8px 15px; /* Compact padding */
+    border-radius: 20px;
     text-align: center;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Reduced margin */
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    font-size: 0.95rem;
+    font-size: 0.85rem; /* Smaller font */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
+    width: fit-content; /* Only take necessary width */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .session-status-banner.active {
@@ -208,7 +211,7 @@ body {
 }
 
 .status-indicator {
-    font-size: 1.2rem;
+    font-size: 1rem; /* Smaller dot */
 }
 
 .session-info-wrapper {
@@ -346,8 +349,15 @@ body {
     }
 }
 
+@media (min-width: 768px) {
+    .emoji-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+}
+
 .emoji-btn {
-    min-height: 100px;
+    min-height: 120px; /* Increased for mobile touch targets */
     background: #f8f9fa;
     border: 3px solid transparent;
     border-radius: 15px;
@@ -359,6 +369,7 @@ body {
     justify-content: center;
     padding: 15px;
     font-family: inherit;
+    touch-action: manipulation; /* Improve touch response */
 }
 
 .emoji-btn:hover {
@@ -377,13 +388,13 @@ body {
 }
 
 .emoji-large {
-    font-size: 3rem;
+    font-size: 3.5rem; /* Larger emoji */
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .emoji-label {
-    font-size: 0.85rem;
+    font-size: 0.95rem; /* Larger text */
     color: #666;
     font-weight: 500;
 }
@@ -411,21 +422,34 @@ body {
     color: white;
     border: none;
     padding: 15px 40px;
-    font-size: 1.1rem;
+    font-size: 1.2rem; /* Larger text */
     border-radius: 30px;
     cursor: pointer;
     transition: all 0.3s;
-    font-weight: 600;
+    font-weight: 700;
     font-family: inherit;
     width: 100%;
-    margin-top: 15px;
-    min-height: 60px;
+    margin-top: 20px;
+    min-height: 70px; /* Larger hit area */
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Pulsing animation to attract attention */
+@keyframes btnPulse {
+    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
+    50% { transform: scale(1.02); box-shadow: 0 4px 25px rgba(102, 126, 234, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
+}
+
+.confirm-feedback-btn:not(.hidden) {
+    animation: btnPulse 2s infinite;
 }
 
 .confirm-feedback-btn:hover {
     background: #5568d3;
+    animation: none;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
 }
 
 .confirm-feedback-btn.hidden {
